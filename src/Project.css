@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Baloo Bhai 2", sans-serif;
+}
+.outer_class{
+    display: flex;
+    text-align: justify;
+    justify-content: center;
+    background: silver;
+
+}
+
+.form_design{
+    display: flex;
+    text-align: justify;
+    justify-content: center;
+    border: 2px solid transparent;
+    background-color: silver;
+    color: black;
+    font-size: 23px;
+}
+.form_attributes{
+    font-size: 23px;
+}
+
+.btn_class{
+    display: flex;
+    margin: 10px;
+}
+#btn1{
+    
+    font-size: 23px;
+}

@@ -1,0 +1,50 @@
+   Frontend
+
+   html => structure the webpage
+   css  => is used to beautify 
+   react => is used to deals with data
+
+
+   Image = always place image in public folder 
+    . in src of image tag always points the public folder
+
+
+
+    Component: 
+
+        component are function whose first letter is always capital and it is called just like calling tag. <Home></Home>  
+
+        component must return only one wrapper.
+        <></> => it is called react fragment.
+
+        use {} (curly braces) to perform javascript operation inside tag (+,-,*,/, variable call, map,filter)
+
+        component are custom tag
+
+
+    anything that is written inside return of component are printed(displayed) on the browser
+
+
+Routing:  => changing path
+
+    NavLink change the url
+    Routes give component based on url
+
+
+    localhost:3000/blog?name=ram&age=20
+
+    url: route ? query or search string
+
+    route: route parameter(blog)
+    query: (name, age)
+
+    anything before ? is called route
+    anything after ? is called query string or search string
+
+    here blog is called route parameter and name, age are called query parameter
+
+
+Hooks: 
+        1.  useParams : to get dynamic route parameter
+        2.  useSearchParams : to get query parameter
+        3.  useNavigate : to change path on click event
