@@ -11,6 +11,10 @@
     background: silver;
 
 }
+img{
+    height: 100px;
+    width: 200px;
+}
 
 .form_design{
     display: flex;
@@ -31,5 +35,35 @@
 }
 #btn1{
     
+    font-size: 23px;
+}
+
+.view_mode{
+    font-size: 1rem;
+    
+    display: flex;
+    align-items: center;
+}
+.btn2{
+    margin: 5px;
+    font-size: 20px;
+}
+
+.inside_view_mode{
+    margin: 10px;
+    border: 2px solid;
+}
+.view_mode_item{
+    margin: 10px 0 5px 8px;
+}
+
+.specific_outer{
+    margin: 25px;
+}
+.specific_mid{
+    display: flex;
+    justify-content: center;
+}
+.specific_content{
     font-size: 23px;
 }
