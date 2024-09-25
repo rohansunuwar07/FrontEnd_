@@ -6,6 +6,7 @@ import { baseUrl } from "../../config/config";
 export const productApi = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  tagTypes: ["readProduct","readSpecificProduct"],
   endpoints: (builder) => ({
     readProduct: builder.query({
       query: () => {
@@ -14,6 +15,7 @@ export const productApi = createApi({
           method: "GET",
         };
       },
+      providesTags: ["readProduct"],
     }),
     deleteProduct: builder.mutation({
       query: (id) => {
@@ -22,15 +24,17 @@ export const productApi = createApi({
           method: "DELETE",
         };
       },
+      invalidatesTags: ["readProduct"],
     }),
     createProduct: builder.mutation({
-      query: (data) => {
+      query: (body) => {
         return {
           url: `/newProduct`,
           method: "POST",
-          data: data,
+          body: body,
         };
       },
+      invalidatesTags: ["readProduct"],
     }),
     readSpecificProduct: builder.query({
       query: (id) => {
@@ -39,15 +43,21 @@ export const productApi = createApi({
           method: "GET",
         };
       },
+      providesTags:['readSpecificProduct'],
     }),
-    // updateProduct:builder.mutation({
-    //     query:(id) => {
-    //       return{
-    //         url:`/newProduct/${id}`
-    //       }
-    //     }
-        
-    // })
+    updateProduct:builder.mutation({
+        query:(info) => {
+          return{
+            url:`/newProduct/${info.id}`,
+            method:"PATCH",
+            body:info.body
+            // info  came from update.jsx
+            // let info = {id:id, body:body}
+          }
+        },
+        invalidatesTags:['readProduct','readSpecificProduct']
+
+    })
   }),
 });
 
@@ -57,5 +67,6 @@ export const {
   useReadProductQuery,
   useDeleteProductMutation,
   useReadSpecificProductQuery,
-  useCreateProductMutation
+  useCreateProductMutation,
+  useUpdateProductMutation
 } = productApi;

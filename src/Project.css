@@ -41,7 +41,8 @@ img{
 .view_mode{
     font-size: 1rem;
     
-    display: flex;
+    display: inline-grid;
+    margin: 43px;
     align-items: center;
 }
 .btn2{

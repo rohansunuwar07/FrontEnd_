@@ -1,27 +1,41 @@
-import { useCreateProductMutation } from "../Services/api/productService";
 import ProductForm from "./ProductForm";
 
-const CreateProductUsingRTK = () => {
-  const [createProduct] = useCreateProductMutation();
+import "react-toastify/dist/ReactToastify.css";
+import { useCreateProductMutation } from "../Services/api/productService";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-  const handleSubmit = async (productData) => {
-    try {
-     let result =  await createProduct(productData).unwrap();
-      console.log(result)
-      // Handle successful creation, e.g., show a success message or redirect
-    } catch (err) {
-      // Handle error, e.g., show an error message
-      console.log("Failed to create product:", err);
-    }
+const CreateProductUsingRTK = () => {
+
+  let [createProduct,{isLoading,isSuccess,isError,error,data}] = useCreateProductMutation();
+  // console.log(data);
+ 
+
+  let navigate = useNavigate();
+
+useEffect(() => {
+  if(isSuccess){
+    console.log("success")
+  }
+},[isSuccess]
+)
+
+useEffect(() => {
+  if(isError){
+    console.log(error.error)
+  }
+},[isError,error]
+)
+
+  let onSubmit =  (body) => {
+    createProduct(body);
+    navigate(`/product`);
   };
 
   return (
     <div>
-      <ProductForm
-        buttonName="Create Product"
-        onSubmit={handleSubmit}
-        Product=""
-      />
+    
+      <ProductForm buttonName="Create Product" onSubmit={onSubmit}  Product="" isLoading={isLoading} />
     </div>
   );
 };

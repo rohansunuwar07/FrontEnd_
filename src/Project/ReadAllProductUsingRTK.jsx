@@ -1,61 +1,75 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import { useReadProductQuery } from "../Services/api/productService";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useDeleteProductMutation,
+  useReadProductQuery,
+} from "../Services/api/productService";
+import { useEffect } from "react";
 
 const ReadAllProductUsingRTK = () => {
+  let result = useReadProductQuery();
+  console.log(result?.data?.data);
 
-
-
-   let result = useReadProductQuery();
-   console.log(result?.data?.data)
-
-
-    let products = result?.data?.data || [] ;
+  let products = result?.data?.data || [];
 
   let navigate = useNavigate();
 
   const handleView = (id) => {
     return () => {
-      navigate(`/product/${id}`)
-    }
-    
-  }
-  
+      navigate(`/product/${id}`);
+    };
+  };
+
   const handleEdit = (id) => {
     return () => {
-      navigate(`/product/update/${id}`)
+      navigate(`/product/update/${id}`);
+    };
+  };
+
+  let params = useParams();
+
+  let [deleteProduct, { isLoading, isSuccess, isError, error, data }] =
+    useDeleteProductMutation(params.id);
+
+  console.log(data);
+
+  // const handleDelete = async (id) => {
+  //   try {
+  //     let result = await axios({
+  //       url: `http://localhost:3001/newProduct /${id}`,
+  //       method: "DELETE",
+  //     });
+  //     console.log(result.data.message);
+  //     getData();
+  //   } catch (error) {}
+  // };
+
+  // let deleteAlert = (id) => {
+  //   Swal.fire({
+  //     title: "Are you sure you want to Delete?",
+  //     text: "You won't be able to revert this!",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, delete it!",
+  //   }).then((result) => {
+  //     if (result.isConfirmed === true) {
+  //       handleDelete(id);
+  //     }
+  //   });
+  // };
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("Deleted");
     }
-    
-  }
-  
+  }, [isSuccess]);
 
-  const handleDelete = async (id) => {
-    try {
-      let result = await axios({
-        url: `http://localhost:3001/newProduct /${id}`,
-        method: "DELETE",
-      });
-      console.log(result.data.message);
-      getData();
-    } catch (error) {}
-  };
-
-  let deleteAlert = (id) => {
-    Swal.fire({
-      title: "Are you sure you want to Delete?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed === true) {
-        handleDelete(id);
-      }
-    });
-  };
+  useEffect(() => {
+    if (isError) {
+      console.log(error.error);
+    }
+  }, [isError, error]);
 
   return (
     <div>
@@ -80,23 +94,22 @@ const ReadAllProductUsingRTK = () => {
               <div className="view_mode_item">
                 Manufactured Date : {value.manufactureDate}
               </div>
-              <div className="view_mode_item">Company : {value.company} </div>
+              <div className="view_mode_item">Company : {(value.company).toUpperCase()} </div>
               <div style={{ margin: "5px" }}>
-                <button
-                  className="btn2"
-                  onClick={handleView(value._id)}
-                >
+                <button className="btn2" onClick={handleView(value._id)}>
                   View
                 </button>
-                <button
-                  className="btn2"
-                  onClick={handleEdit(value._id)}
-                >
+                <button className="btn2" onClick={handleEdit(value._id)}>
                   Update
                 </button>
-                <button className="btn2"   onClick={() => {
-                deleteAlert(value._id);
-              }}>Delete</button>
+                <button
+                  className="btn2"
+                  onClick={() => {
+                    deleteProduct(value._id);
+                  }}
+                >
+                  {isLoading ? "Deleting...":"Delete"}
+                </button>
               </div>
             </div>
           </div>

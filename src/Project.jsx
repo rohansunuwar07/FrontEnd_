@@ -1,11 +1,13 @@
 import { Outlet, Route, Routes } from "react-router-dom";
 // import CreateProduct from "./Project/CreateProduct";
-import CreateProduct from "./Project/CreateProduct";
-import DisplaySpecificProduct from "./Project/DisplaySpecificProduct";
+import CreateProductUsingRTK from "./Project/CreateProductUsingRTK";
 import Footer from "./Project/Footer";
 import Navbar from "./Project/Navbar";
 import ReadAllProductUsingRTK from "./Project/ReadAllProductUsingRTK";
+import ReadSpecificProductUsingRTK from "./Project/ReadSpecificProductUsingRTK";
 import UpdateProduct from "./Project/UpdateProduct";
+import CreateProduct from "./Project/CreateProduct";
+import UpdateProductUsingRTK from "./Project/UpdateProductUsingRTK";
 
 const Project = () => {
   // let infoData = useSelector((store) => store.info);
@@ -26,9 +28,12 @@ const Project = () => {
           <Route path="product" element={<Outlet />}>
             {/* <Route index element={<DisplayProduct />}></Route> */}
             <Route index element={<ReadAllProductUsingRTK />}></Route>
-            <Route path="create" element={<CreateProduct />}></Route>
-            <Route path=":id" element={<DisplaySpecificProduct />}></Route>
-            <Route path="update/:id" element={<UpdateProduct />}></Route>
+            {/* <Route path="create" element={<CreateProduct />}></Route> */}
+            <Route path="create" element={<CreateProductUsingRTK />}></Route>
+          
+            <Route path=":id" element={<ReadSpecificProductUsingRTK />}></Route>
+            {/* <Route path="update/:id" element={<UpdateProduct />}></Route> */}
+            <Route path="update/:id" element={<UpdateProductUsingRTK />}></Route>
           </Route>
         </Route>
       </Routes>

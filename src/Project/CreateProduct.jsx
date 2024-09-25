@@ -3,8 +3,11 @@ import { hitApi } from "../Services/hitApi";
 import ProductForm from "./ProductForm";
 
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const CreateProduct = () => {
+
+  let navigate = useNavigate();
  
   let onSubmit = async (data) => {
     try {
@@ -15,6 +18,7 @@ const CreateProduct = () => {
 
       });
      toast.success(result.data.message);
+     navigate(`/product`);
     } catch (error) {
       console.log(error.message);
     }
