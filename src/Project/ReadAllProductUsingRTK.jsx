@@ -3,13 +3,15 @@ import {
   useDeleteProductMutation,
   useReadProductQuery,
 } from "../Services/api/productService";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ReadAllProductUsingRTK = () => {
-  let result = useReadProductQuery();
-  console.log(result?.data?.data);
+  let [deleteId, setDeleteId] = useState("");
 
-  let products = result?.data?.data || [];
+  let { isLoading: loadingData, data: readData } = useReadProductQuery();
+  // console.log(result?.data?.data);
+
+  let products = readData?.data || [];
 
   let navigate = useNavigate();
 
@@ -73,48 +75,63 @@ const ReadAllProductUsingRTK = () => {
 
   return (
     <div>
-      {products.map((value, index) => {
-        return (
-          <div key={index} className="view_mode">
-            <span>{index + 1}.</span>
-            <div className="inside_view_mode">
-              <img
-                className="view_mode_item"
-                src={value.productImage}
-                alt="image is failed to show"
-                style={{ width: "200px", height: "100px" }}
-              />
+      {loadingData || isLoading ? (
+        <div style={{ fontSize: "60px" }}>Loading....</div>
+      ) : (
+        <div>
+          {products.map((value, index) => {
+            return (
+              <div key={index} className="view_mode">
+                <span>{index + 1}.</span>
+                <div className="inside_view_mode">
+                  <img
+                    className="view_mode_item"
+                    src={value.productImage}
+                    alt="image is failed to show"
+                    style={{ width: "200px", height: "100px" }}
+                  />
 
-              <div className="view_mode_item">Product Name : {value.name}</div>
-              <div className="view_mode_item">Quantity : {value.quantity} </div>
-              <div className="view_mode_item">Price : {value.price} </div>
-              <div className="view_mode_item">
-                Featured : {value.featured === true ? "True" : "False"}
+                  <div className="view_mode_item">
+                    Product Name : {value.name}
+                  </div>
+                  <div className="view_mode_item">
+                    Quantity : {value.quantity}{" "}
+                  </div>
+                  <div className="view_mode_item">Price : {value.price} </div>
+                  <div className="view_mode_item">
+                    Featured : {value.featured === true ? "True" : "False"}
+                  </div>
+                  <div className="view_mode_item">
+                    Manufactured Date : {value.manufactureDate}
+                  </div>
+                  <div className="view_mode_item">
+                    Company : {value.company.toUpperCase()}{" "}
+                  </div>
+                  <div style={{ margin: "5px" }}>
+                    <button className="btn2" onClick={handleView(value._id)}>
+                      View
+                    </button>
+                    <button className="btn2" onClick={handleEdit(value._id)}>
+                      Update
+                    </button>
+                    <button
+                      className="btn2"
+                      onClick={() => {
+                        deleteProduct(value._id);
+                        setDeleteId(value._id);
+                      }}
+                    >
+                      {isLoading && value._id === deleteId
+                        ? "Deleting..."
+                        : "Delete"}
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div className="view_mode_item">
-                Manufactured Date : {value.manufactureDate}
-              </div>
-              <div className="view_mode_item">Company : {(value.company).toUpperCase()} </div>
-              <div style={{ margin: "5px" }}>
-                <button className="btn2" onClick={handleView(value._id)}>
-                  View
-                </button>
-                <button className="btn2" onClick={handleEdit(value._id)}>
-                  Update
-                </button>
-                <button
-                  className="btn2"
-                  onClick={() => {
-                    deleteProduct(value._id);
-                  }}
-                >
-                  {isLoading ? "Deleting...":"Delete"}
-                </button>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

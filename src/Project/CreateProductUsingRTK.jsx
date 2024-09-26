@@ -15,7 +15,8 @@ const CreateProductUsingRTK = () => {
 
 useEffect(() => {
   if(isSuccess){
-    console.log("success")
+    console.log("success");
+    navigate(`/product`);
   }
 },[isSuccess]
 )
@@ -29,7 +30,7 @@ useEffect(() => {
 
   let onSubmit =  (body) => {
     createProduct(body);
-    navigate(`/product`);
+   
   };
 
   return (
